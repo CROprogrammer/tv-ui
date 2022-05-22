@@ -55,6 +55,7 @@ export default function NewContentForm({
   );
 
   useEffect(() => {
+    // @ts-ignore
     dispatch(categoriesAction.getAllCategories());
   }, [dispatch]);
 

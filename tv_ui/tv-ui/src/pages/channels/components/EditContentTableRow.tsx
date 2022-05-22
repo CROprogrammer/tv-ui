@@ -49,6 +49,7 @@ export default function EditContentTableRow({
   const dispatch = useDispatch();
 
   useEffect(() => {
+    // @ts-ignore
     dispatch(categoriesAction.getAllCategories());
   }, [dispatch]);
 

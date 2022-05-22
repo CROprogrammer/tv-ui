@@ -41,6 +41,7 @@ export default function EditChannelPage() {
   const [logo, setLogo] = useState<string>("");
 
   useEffect(() => {
+    // @ts-ignore
     dispatch(channelAction.getChannelById(id));
   }, [dispatch, id, numOfContent]);
 

@@ -32,6 +32,7 @@ export default function EditCategoryPage() {
   const { id } = useParams();
 
   useEffect(() => {
+    // @ts-ignore
     dispatch(categoriesAction.getCategoryById(id));
   }, [dispatch, id]);
 

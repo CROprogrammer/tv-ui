@@ -7,4 +7,5 @@ import {
 import { RootState } from "./reducer";
 
 export const useDispatch = () => useReduxDispatch<Dispatch>();
+// @ts-ignore
 export const useSelector = createSelectorHook<RootState>();

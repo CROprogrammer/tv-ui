@@ -19,6 +19,7 @@ export default function ChannelsTable() {
   );
 
   useEffect(() => {
+    // @ts-ignore
     dispatch(channelsAction.getAllChannels());
   }, [dispatch, numOfChannels]);
 
