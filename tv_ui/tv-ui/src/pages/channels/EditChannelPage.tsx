@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
-import { ErrorMessage, Field, FormikHelpers } from "formik";
+import { FormikHelpers } from "formik";
 
 import * as Yup from "yup";
 import * as channelApi from "../../api/channels";
@@ -13,7 +13,6 @@ import { channelAction } from "./store/ChannelSlice";
 import { NewChannelFormData } from "./models/channel/channel";
 import FormLayout from "../../components/FormLayout";
 import Button from "../../components/Button";
-import FileUploadComponent from "./components/FileUploadComponent";
 import { makeToast } from "../../utils/makeToast";
 import { Content } from "./models/channel/content";
 import EditContentTableRow from "./components/EditContentTableRow";

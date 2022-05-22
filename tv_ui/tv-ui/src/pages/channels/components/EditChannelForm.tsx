@@ -1,4 +1,9 @@
-import React, { DetailedHTMLProps, HTMLAttributes } from "react";
+import React, {
+  DetailedHTMLProps,
+  HTMLAttributes,
+  useEffect,
+  useState,
+} from "react";
 
 import { ErrorMessage, Field } from "formik";
 
@@ -15,6 +20,20 @@ export default function EditChannelForm({
   channel,
   uploadImage,
 }: EditChannelFormProps) {
+  const [logo, setLogo] = useState<string>(channel.logo);
+
+  useEffect(() => {
+    setLogo(channel.logo);
+  }, [channel]);
+
+  const resetLogo = () => {
+    setLogo(channel.logo);
+  };
+
+  useEffect(() => {
+    console.log("logo reset");
+  }, [resetLogo]);
+
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
       <table className="w-full mb-5 table-fixed text-base text-left text-gray-500 dark:text-gray-400">
@@ -50,7 +69,14 @@ export default function EditChannelForm({
             </th>
             <td className="px-1">
               <FileUploadComponent
-                setContent={(content) => uploadImage(content)}
+                setContent={(content) => {
+                  uploadImage(
+                    content == null && channel.logo != null
+                      ? channel.logo
+                      : content
+                  );
+                  setLogo(content.substr(content.indexOf(",") + 1));
+                }}
                 maxFileSize={2000000}
                 readAs="url"
                 acceptContentType="image/jpeg, image/png, image/gif, image/webp, image/bmp"
@@ -60,12 +86,12 @@ export default function EditChannelForm({
                   placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-sky-500
                   focus:border-sky-500 focus:z-10 sm:text-sm"
                 >
-                  {channel.logo === "" ? (
+                  {logo === "" || logo == null ? (
                     "Dodaj logo kanala"
                   ) : (
                     <img
                       className="w-10 h-10"
-                      src={`data:image;base64, ${channel.logo}`}
+                      src={`data:image;base64, ${logo}`}
                       alt="container image"
                     />
                   )}
@@ -116,7 +142,11 @@ export default function EditChannelForm({
               </button>
             </td>
             <td className="pl-1">
-              <Button className="bg-red-500 rounded-md" type="reset">
+              <Button
+                className="bg-red-500 rounded-md"
+                type="reset"
+                onClick={resetLogo}
+              >
                 Odustani
               </Button>
             </td>

@@ -50,7 +50,7 @@ export default function EditContentTableRow({
 
   useEffect(() => {
     // @ts-ignore
-    dispatch(categoriesAction.getAllCategories());
+    dispatch(categoriesAction.getCategories(null));
   }, [dispatch]);
 
   const categories = useSelector(

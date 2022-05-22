@@ -13,6 +13,17 @@ export async function getAllChannels(): Promise<Response> {
   });
 }
 
+export async function getChannelsByName(channelName: string): Promise<Response> {
+  return await fetch(paths.channel.channelsByName(channelName), {
+    method: "GET",
+    headers: {
+      Authorization: localStorage.getItem("jwt")
+          ? "Bearer " + localStorage.getItem("jwt")
+          : "",
+    },
+  });
+}
+
 export async function getChannelById(channelId: string): Promise<Response> {
   return await fetch(paths.channel.getChannelById(channelId), {
     method: "GET",

@@ -17,11 +17,12 @@ export default function ChannelsTable() {
   const [numOfChannels, setNumOfChannels] = useState<number>(
     channels.length != null ? channels.length : 0
   );
+  const [channelNameSearch, setChannelNameSearch] = useState<string | null>(null);
 
   useEffect(() => {
     // @ts-ignore
-    dispatch(channelsAction.getAllChannels());
-  }, [dispatch, numOfChannels]);
+    dispatch(channelsAction.getChannels(channelNameSearch === "" ? null : channelNameSearch));
+  }, [dispatch, numOfChannels, channelNameSearch]);
 
   const showNewChannelForm = () => {
     setNewChannelFormOpened(!newChannelFormOpened);
@@ -29,7 +30,11 @@ export default function ChannelsTable() {
 
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-      <table className="w-full text-base text-left text-gray-500 dark:text-gray-400">
+      <div className="flex flex-row m-2">
+        <label className="mr-2 text-bold rounded-md">Pretraživanje po nazivu:</label>
+        <input className="border" placeholder="Naziv kanala" onChange={event => setChannelNameSearch(event.target.value)} />
+      </div>
+      <table className="w-full table-fixed text-base text-left text-gray-500 dark:text-gray-400">
         <thead className="text-xs text-white uppercase bg-sky-500 dark:bg-gray-700 dark:text-gray-400">
           <tr>
             <th scope="col" className="px-6 py-3">

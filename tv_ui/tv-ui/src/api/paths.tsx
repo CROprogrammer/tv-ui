@@ -5,6 +5,7 @@ export const account = {
 
 export const channel = {
   channels: () => "/channels",
+  channelsByName: (channelName: string) => `/channels/search/${channelName}`,
   ownedChannels: () => "/channels/owned",
   channelsWithId: (channelId: string) => `/channels/${channelId}`,
   getChannelById: (channelId: string) => `/channels/byId/${channelId}`,
@@ -17,5 +18,6 @@ export const content = {
 
 export const category = {
   categories: () => "/categories",
+  categoriesByName: (categoryName: string) => `/categories/search/${categoryName}`,
   categoryById: (categoryId: string) => `/categories/${categoryId}`,
 };

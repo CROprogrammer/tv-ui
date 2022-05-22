@@ -13,6 +13,17 @@ export async function getAllCategories(): Promise<Response> {
   });
 }
 
+export async function getCategoriesByName(categoryName: string): Promise<Response> {
+  return await fetch(paths.category.categoriesByName(categoryName), {
+    method: "GET",
+    headers: {
+      Authorization: localStorage.getItem("jwt")
+          ? "Bearer " + localStorage.getItem("jwt")
+          : "",
+    },
+  });
+}
+
 export async function getCategoryById(categoryId: string): Promise<Response> {
   return await fetch(paths.category.categoryById(categoryId), {
     method: "GET",

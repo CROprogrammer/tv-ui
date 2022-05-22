@@ -6,12 +6,20 @@ import { ErrorResponse } from "../../../models/error/errorResponse";
 import { fetchWrapper } from "../../../store/utils/fetchwrapper";
 import { Channel } from "../models/channel/channel";
 
-const getAllChannels = createAsyncThunk("channels", async () => {
+const getChannels = createAsyncThunk("channels", async (channelName: string | null) => {
   const userRole = localStorage.getItem("userRole");
-  if (userRole == "ROLE_editor") {
-    return await fetchWrapper<Channel[]>(channelsApi.getAllOwnedChannels());
+  if (channelName !== null) {
+    if (userRole == "ROLE_editor") {
+      return await fetchWrapper<Channel[]>(channelsApi.getAllOwnedChannels());
+    } else {
+      return await fetchWrapper<Channel[]>(channelsApi.getChannelsByName(channelName));
+    }
   } else {
-    return await fetchWrapper<Channel[]>(channelsApi.getAllChannels());
+    if (userRole == "ROLE_editor") {
+      return await fetchWrapper<Channel[]>(channelsApi.getAllOwnedChannels());
+    } else {
+      return await fetchWrapper<Channel[]>(channelsApi.getAllChannels());
+    }
   }
 });
 
@@ -32,16 +40,16 @@ export const channelsSlice = createSlice({
   initialState: channelsInitialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getAllChannels.pending, (state) => {
+    builder.addCase(getChannels.pending, (state) => {
       state.status = "waiting";
     });
 
-    builder.addCase(getAllChannels.fulfilled, (state, action) => {
+    builder.addCase(getChannels.fulfilled, (state, action) => {
       state.status = "success";
       state.channels = action.payload;
     });
 
-    builder.addCase(getAllChannels.rejected, (state, action) => {
+    builder.addCase(getChannels.rejected, (state, action) => {
       state.status = "error";
       state.error = action.payload as ErrorResponse;
     });
@@ -50,6 +58,6 @@ export const channelsSlice = createSlice({
 
 export const channels = channelsSlice.reducer;
 export const channelsAction = {
-  getAllChannels,
+  getChannels,
   ...channelsSlice.actions,
 };
