@@ -13,13 +13,15 @@ export async function getAllChannels(): Promise<Response> {
   });
 }
 
-export async function getChannelsByName(channelName: string): Promise<Response> {
+export async function getChannelsByName(
+  channelName: string
+): Promise<Response> {
   return await fetch(paths.channel.channelsByName(channelName), {
     method: "GET",
     headers: {
       Authorization: localStorage.getItem("jwt")
-          ? "Bearer " + localStorage.getItem("jwt")
-          : "",
+        ? "Bearer " + localStorage.getItem("jwt")
+        : "",
     },
   });
 }
@@ -37,6 +39,19 @@ export async function getChannelById(channelId: string): Promise<Response> {
 
 export async function getAllOwnedChannels(): Promise<Response> {
   return await fetch(paths.channel.ownedChannels(), {
+    method: "GET",
+    headers: {
+      Authorization: localStorage.getItem("jwt")
+        ? "Bearer " + localStorage.getItem("jwt")
+        : "",
+    },
+  });
+}
+
+export async function getOwnedChannelsByName(
+  channelName: string
+): Promise<Response> {
+  return await fetch(paths.channel.ownedChannelsByName(channelName), {
     method: "GET",
     headers: {
       Authorization: localStorage.getItem("jwt")

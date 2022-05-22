@@ -6,22 +6,29 @@ import { ErrorResponse } from "../../../models/error/errorResponse";
 import { fetchWrapper } from "../../../store/utils/fetchwrapper";
 import { Channel } from "../models/channel/channel";
 
-const getChannels = createAsyncThunk("channels", async (channelName: string | null) => {
-  const userRole = localStorage.getItem("userRole");
-  if (channelName !== null) {
-    if (userRole == "ROLE_editor") {
-      return await fetchWrapper<Channel[]>(channelsApi.getAllOwnedChannels());
+const getChannels = createAsyncThunk(
+  "channels",
+  async (channelName: string | null) => {
+    const userRole = localStorage.getItem("userRole");
+    if (channelName !== null) {
+      if (userRole == "ROLE_editor") {
+        return await fetchWrapper<Channel[]>(
+          channelsApi.getOwnedChannelsByName(channelName)
+        );
+      } else {
+        return await fetchWrapper<Channel[]>(
+          channelsApi.getChannelsByName(channelName)
+        );
+      }
     } else {
-      return await fetchWrapper<Channel[]>(channelsApi.getChannelsByName(channelName));
-    }
-  } else {
-    if (userRole == "ROLE_editor") {
-      return await fetchWrapper<Channel[]>(channelsApi.getAllOwnedChannels());
-    } else {
-      return await fetchWrapper<Channel[]>(channelsApi.getAllChannels());
+      if (userRole == "ROLE_editor") {
+        return await fetchWrapper<Channel[]>(channelsApi.getAllOwnedChannels());
+      } else {
+        return await fetchWrapper<Channel[]>(channelsApi.getAllChannels());
+      }
     }
   }
-});
+);
 
 type ChannelsState = {
   channels: Channel[];
